@@ -21,6 +21,11 @@ row_count = c.fetchone()[0]
 if row_count == 0:
     c.execute("INSERT INTO users (username, password) VALUES ('admin', 'admin')")
     c.execute("INSERT INTO users (username, password) VALUES ('student', 'student')")
+    c.execute("INSERT INTO users (username, password) VALUES ('itladmin', 'itl')")
+    c.execute("INSERT INTO users (username, password) VALUES ('eeadmin', 'ee')")
+    c.execute("INSERT INTO users (username, password) VALUES ('ecadmin', 'ec')")
+    c.execute("INSERT INTO users (username, password) VALUES ('itsadmin', 'itsadmin')")
+    c.execute("INSERT INTO users (username, password) VALUES ('moduleorganiser', 'module')")
     conn.commit()
 
 # Create the tickets table for issues
@@ -88,9 +93,18 @@ def login() -> str:
 @app.route('/home')
 def home() -> str:
     if 'username' in session:
-        # Check if the logged in user is an admin
         if session['username'] == 'admin':
             return render_template('admin.html', username=session['username'])
+        elif session['username'] == 'ecadmin':
+            return render_template('ecadmin.html', username=session['username'])
+        elif session['username'] == 'itladmin':
+            return render_template('itladmin.html', username=session['username'])
+        elif session['username'] == 'itsadmin':
+            return render_template('itsadmin.html', username=session['username'])
+        elif session['username'] == 'eeadmin':
+            return render_template('eeadmin.html', username=session['username'])
+        elif session['username'] == 'moduleorganiser':
+            return render_template('moduleo.html', username=session['username'])
         else:
             return render_template('home.html', username=session['username'])
     return redirect(url_for('login'))
